@@ -34,6 +34,12 @@
 // output log both debug and release
 #define RLog( s, ... ) NSLog( @"<%p %@:(%d)> %@", self, [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, [NSString stringWithFormat:(s), ##__VA_ARGS__] )
 
+#define UIColorFromRGB(rgbValue) \
+[UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
+                green:((float)((rgbValue & 0x00FF00) >>  8))/255.0 \
+                 blue:((float)((rgbValue & 0x0000FF) >>  0))/255.0 \
+                alpha:1.0]
+
 const float MAX_SCALE = 3.0f;
 const float MIN_SCALE = 1.0f;
 
@@ -231,6 +237,7 @@ const float MIN_SCALE = 1.0f;
         if (_pdfDocument && ([changedProps containsObject:@"path"] || [changedProps containsObject:@"enablePaging"])) {
             if (_enablePaging) {
                 [_pdfView usePageViewController:YES withViewOptions:@{UIPageViewControllerOptionSpineLocationKey:@(UIPageViewControllerSpineLocationMin),UIPageViewControllerOptionInterPageSpacingKey:@(_spacing)}];
+		[[_pdfView.subviews objectAtIndex:0] setBackgroundColor:UIColorFromRGB(0x2692EE)];
             } else {
                 [_pdfView usePageViewController:NO withViewOptions:Nil];
             }
