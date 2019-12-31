@@ -102,7 +102,13 @@ const float MIN_SCALE = 1.0f;
 
 - (void)PDFViewWillClickOnLink:(PDFView *)sender withURL:(NSURL *)url
 {
-    [[UIApplication sharedApplication] openURL:url];
+    NSString *urlFixed = [url absoluteString];
+    urlFixed = [urlFixed stringByReplacingOccurrencesOfString:@"%252"
+    withString:@"%2"];
+    urlFixed = [urlFixed stringByReplacingOccurrencesOfString:@"%253"
+    withString:@"%3"];
+    NSLog(@"This is the fixed url: %@", urlFixed);
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlFixed]];
 }
 
 - (void)didSetProps:(NSArray<NSString *> *)changedProps
