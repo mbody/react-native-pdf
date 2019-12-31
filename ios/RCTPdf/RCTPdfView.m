@@ -91,12 +91,18 @@ const float MIN_SCALE = 1.0f;
         [center addObserver:self selector:@selector(onScaleChanged:) name:PDFViewScaleChangedNotification object:_pdfView];
         
         [[_pdfView document] setDelegate: self];
+        [_pdfView setDelegate: self];
         
         
         [self bindTap];
     }
     
     return self;
+}
+
+- (void)PDFViewWillClickOnLink:(PDFView *)sender withURL:(NSURL *)url
+{
+    [[UIApplication sharedApplication] openURL:url];
 }
 
 - (void)didSetProps:(NSArray<NSString *> *)changedProps
